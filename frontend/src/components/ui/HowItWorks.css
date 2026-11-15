@@ -1,0 +1,990 @@
+/* ─────────────────────────────────────────────────────────────
+   HOW SCRAPBID WORKS — 100% AUTOMATIC STEP-BY-STEP WORKFLOW
+   Runs continuously and smoothly without requiring cursor interaction
+   ───────────────────────────────────────────────────────────── */
+
+.hiw-section {
+  position: relative;
+  width: 100%;
+  padding: 70px 0 90px;
+  background: var(--bg-primary, #ffffff);
+  overflow: hidden;
+  user-select: none;
+}
+
+[data-theme="dark"] .hiw-section {
+  background: var(--bg-primary, #0a0f1d);
+}
+
+/* Perspective floor grid in the background */
+.hiw-bg-grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: 
+    linear-gradient(to right, rgba(16, 185, 129, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(16, 185, 129, 0.05) 1px, transparent 1px);
+  background-size: 36px 36px;
+  mask-image: radial-gradient(ellipse 80% 65% at 50% 50%, black 25%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 65% at 50% 50%, black 25%, transparent 80%);
+}
+
+[data-theme="dark"] .hiw-bg-grid {
+  background-image: 
+    linear-gradient(to right, rgba(16, 185, 129, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(16, 185, 129, 0.08) 1px, transparent 1px);
+}
+
+/* ─── Header ─── */
+.hiw-header-wrap {
+  text-align: center;
+  max-width: 860px;
+  margin: 0 auto 30px;
+  padding: 0 20px;
+}
+
+.hiw-pill-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: #059669;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+[data-theme="dark"] .hiw-pill-tag {
+  color: #34D399;
+}
+
+.hiw-pill-line {
+  display: inline-block;
+  width: 36px;
+  height: 2px;
+  background: #10B981;
+}
+
+.hiw-main-heading {
+  font-size: 2.15rem;
+  font-weight: 800;
+  color: var(--text-primary, #0f172a);
+  letter-spacing: -0.02em;
+  margin: 0 0 10px;
+}
+
+[data-theme="dark"] .hiw-main-heading {
+  color: #f8fafc;
+}
+
+.hiw-desc-text {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--text-muted, #475569);
+  margin: 0;
+}
+
+/* ─── Automatic Workflow Ribbon (Auto-playing without cursor) ─── */
+.hiw-auto-ribbon {
+  max-width: 1180px;
+  margin: 0 auto 24px;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  background: rgba(248, 250, 252, 0.85);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  border-radius: 16px;
+}
+
+[data-theme="dark"] .hiw-auto-ribbon {
+  background: rgba(17, 24, 39, 0.7);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.hiw-live-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: #ECFDF5;
+  border: 1px solid #A7F3D0;
+  border-radius: 9999px;
+  flex-shrink: 0;
+}
+
+[data-theme="dark"] .hiw-live-badge {
+  background: rgba(16, 185, 129, 0.15);
+  border-color: rgba(16, 185, 129, 0.35);
+}
+
+.hiw-live-ping {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10B981;
+  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  animation: livePing 1.8s infinite;
+}
+
+@keyframes livePing {
+  0% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 7px rgba(16, 185, 129, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
+
+.hiw-live-text {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #065F46;
+}
+
+[data-theme="dark"] .hiw-live-text {
+  color: #6EE7B7;
+}
+
+.hiw-ribbon-steps {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  gap: 16px;
+}
+
+.hiw-ribbon-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: all 0.3s ease;
+}
+
+.ribbon-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ribbon-badge-num {
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: #94a3b8;
+  transition: color 0.3s ease;
+}
+
+.ribbon-badge-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #64748b;
+  white-space: nowrap;
+  transition: color 0.3s ease;
+}
+
+[data-theme="dark"] .ribbon-badge-title {
+  color: #94a3b8;
+}
+
+.hiw-ribbon-item.item-active .ribbon-badge-num {
+  color: #10B981;
+}
+
+.hiw-ribbon-item.item-active .ribbon-badge-title {
+  color: #059669;
+  font-weight: 800;
+}
+
+[data-theme="dark"] .hiw-ribbon-item.item-active .ribbon-badge-title {
+  color: #34D399;
+}
+
+.hiw-ribbon-item.item-done .ribbon-badge-num,
+.hiw-ribbon-item.item-done .ribbon-badge-title {
+  color: #059669;
+}
+
+/* Continuous Progress Track under each stage */
+.ribbon-track {
+  width: 100%;
+  height: 4px;
+  background: #E2E8F0;
+  border-radius: 9999px;
+  overflow: hidden;
+  position: relative;
+}
+
+[data-theme="dark"] .ribbon-track {
+  background: #1e293b;
+}
+
+.ribbon-track-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: linear-gradient(90deg, #10B981, #059669);
+  border-radius: 9999px;
+  transition: width 0.08s linear;
+}
+
+.hiw-ribbon-item.item-done .ribbon-track-fill {
+  background: #10B981;
+}
+
+/* ─── Dynamic Story Explainer Banner ─── */
+.hiw-story-banner {
+  max-width: 900px;
+  margin: 0 auto 36px;
+  padding: 14px 24px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(59, 130, 246, 0.08) 100%);
+  border: 1.5px solid rgba(16, 185, 129, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 4px 18px -2px rgba(16, 185, 129, 0.08);
+  transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .hiw-story-banner {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(59, 130, 246, 0.12) 100%);
+  border-color: rgba(16, 185, 129, 0.35);
+}
+
+.hiw-story-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 8px;
+  background: #059669;
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.hiw-pulse-icon {
+  animation: pulseBeat 1.5s infinite;
+}
+
+@keyframes pulseBeat {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.25);
+  }
+}
+
+.hiw-story-content {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary, #1e293b);
+  line-height: 1.5;
+}
+
+[data-theme="dark"] .hiw-story-content {
+  color: #f1f5f9;
+}
+
+/* ─── Main Pipeline Stage Viewport ─── */
+.hiw-pipeline-viewport {
+  width: 100%;
+  overflow-x: auto;
+  padding: 20px 10px 50px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.hiw-pipeline-canvas {
+  min-width: 1220px;
+  max-width: 1340px;
+  margin: 0 auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 75px;
+}
+
+/* ─── Track Row ─── */
+.hiw-track-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+  z-index: 2;
+}
+
+/* ─── Left Role Anchor ─── */
+.hiw-role-anchor {
+  width: 170px;
+  height: 154px;
+  border-radius: 20px;
+  padding: 22px 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  flex-shrink: 0;
+  box-shadow: 0 10px 24px -4px rgba(0, 0, 0, 0.15);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: default;
+}
+
+.role-seller-anchor {
+  background: linear-gradient(135deg, #059669 0%, #064E3B 100%);
+  color: #ffffff;
+  border: 1.5px solid rgba(16, 185, 129, 0.4);
+}
+
+.role-buyer-anchor {
+  background: linear-gradient(135deg, #1E3A8A 0%, #0F172A 100%);
+  color: #ffffff;
+  border: 1.5px solid rgba(59, 130, 246, 0.4);
+}
+
+.hiw-role-anchor.anchor-active {
+  box-shadow: 0 14px 34px -4px rgba(16, 185, 129, 0.4);
+  transform: translateY(-2px);
+}
+
+.role-buyer-anchor.anchor-active {
+  box-shadow: 0 14px 34px -4px rgba(59, 130, 246, 0.4);
+}
+
+.role-anchor-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.role-anchor-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  margin: 0 0 3px;
+}
+
+.role-anchor-sub {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.3;
+  margin: 0 0 8px;
+}
+
+.role-anchor-badge {
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.seller-badge {
+  background: rgba(16, 185, 129, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #ECFDF5;
+}
+
+.buyer-badge {
+  background: rgba(59, 130, 246, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #EFF6FF;
+}
+
+/* ─── Steps Sequence & Connecting Track ─── */
+.hiw-steps-sequence {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  position: relative;
+}
+
+/* Base horizontal track line behind cards */
+.hiw-horizontal-wire {
+  position: absolute;
+  top: 50%;
+  left: 30px;
+  right: 30px;
+  height: 3px;
+  background: #E2E8F0;
+  z-index: 1;
+  transform: translateY(-50%);
+  border-radius: 2px;
+}
+
+[data-theme="dark"] .hiw-horizontal-wire {
+  background: #1e293b;
+}
+
+/* Progressive animated filled line */
+.hiw-wire-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fill-seller {
+  background: linear-gradient(90deg, #10B981, #059669);
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.7);
+}
+
+.fill-buyer {
+  background: linear-gradient(90deg, #3B82F6, #1D4ED8);
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.7);
+}
+
+/* Moving energy pulse particle along the wire */
+.hiw-wire-particle {
+  position: absolute;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: left 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 3;
+}
+
+.particle-seller {
+  background: #ffffff;
+  border: 2.5px solid #10B981;
+  box-shadow: 0 0 12px #10B981, 0 0 22px #10B981;
+}
+
+.particle-buyer {
+  background: #ffffff;
+  border: 2.5px solid #3B82F6;
+  box-shadow: 0 0 12px #3B82F6, 0 0 22px #3B82F6;
+}
+
+/* ─── Individual Step Card ─── */
+.hiw-step-unit {
+  flex: 1;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 8px;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Step Number Pill */
+.hiw-num-pill {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid #cbd5e1;
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: -16px;
+  z-index: 4;
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="dark"] .hiw-num-pill {
+  background: #1e293b;
+  border-color: #475569;
+  color: #94a3b8;
+}
+
+/* Pulsing Halo Ring for the currently newly-activated step */
+.pill-pulse-ring {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 2px solid #10B981;
+  animation: pillRingPing 1.6s infinite cubic-bezier(0, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+.pill-buyer .pill-pulse-ring {
+  border-color: #3B82F6;
+}
+
+@keyframes pillRingPing {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+/* Active Seller Pill */
+.hiw-step-unit.active .hiw-num-pill.pill-seller {
+  background: #059669;
+  border-color: #10B981;
+  color: #ffffff;
+  box-shadow: 0 0 14px rgba(16, 185, 129, 0.7);
+  transform: scale(1.12);
+}
+
+/* Active Buyer Pill */
+.hiw-step-unit.active .hiw-num-pill.pill-buyer {
+  background: #1D4ED8;
+  border-color: #3B82F6;
+  color: #ffffff;
+  box-shadow: 0 0 14px rgba(59, 130, 246, 0.7);
+  transform: scale(1.12);
+}
+
+/* Step Card Box (Cursor: default — no click or hover required!) */
+.hiw-card-box {
+  width: 100%;
+  min-height: 154px;
+  background: var(--bg-card, #ffffff);
+  border: 1.5px solid var(--border-light, #e2e8f0);
+  border-radius: 18px;
+  padding: 24px 14px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 4px 18px -2px rgba(0, 0, 0, 0.04);
+  cursor: default; /* Not cursor: pointer! */
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+
+[data-theme="dark"] .hiw-card-box {
+  background: var(--bg-card, #111827);
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 18px -2px rgba(0, 0, 0, 0.3);
+}
+
+/* Active Seller Card */
+.hiw-step-unit.active .card-seller {
+  border: 2px solid #10B981;
+  box-shadow: 0 10px 28px -4px rgba(16, 185, 129, 0.28);
+  transform: translateY(-4px);
+}
+
+[data-theme="dark"] .hiw-step-unit.active .card-seller {
+  border-color: #059669;
+  box-shadow: 0 10px 28px -4px rgba(16, 185, 129, 0.38);
+}
+
+/* Most recently activated step gets elevated extra emphasis */
+.hiw-step-unit.current-active .card-seller {
+  border-color: #10B981;
+  box-shadow: 0 14px 34px -4px rgba(16, 185, 129, 0.45);
+  transform: translateY(-8px) scale(1.02);
+}
+
+/* Active Buyer Card */
+.hiw-step-unit.active .card-buyer {
+  border: 2px solid #3B82F6;
+  box-shadow: 0 10px 28px -4px rgba(59, 130, 246, 0.28);
+  transform: translateY(-4px);
+}
+
+[data-theme="dark"] .hiw-step-unit.active .card-buyer {
+  border-color: #2563EB;
+  box-shadow: 0 10px 28px -4px rgba(59, 130, 246, 0.38);
+}
+
+/* Most recently activated buyer step gets elevated extra emphasis */
+.hiw-step-unit.current-active .card-buyer {
+  border-color: #3B82F6;
+  box-shadow: 0 14px 34px -4px rgba(59, 130, 246, 0.45);
+  transform: translateY(-8px) scale(1.02);
+}
+
+/* Icon Carrier Box */
+.hiw-icon-carrier {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #64748b;
+  margin-bottom: 12px;
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-theme="dark"] .hiw-icon-carrier {
+  background: #1e293b;
+  border-color: #334155;
+  color: #94a3b8;
+}
+
+/* Active Seller Icon Carrier: Solid vibrant green circle with white icon */
+.hiw-step-unit.active .card-seller .hiw-icon-carrier {
+  background: #10B981;
+  border-color: #059669;
+  color: #ffffff;
+  transform: scale(1.08);
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);
+}
+
+/* Active Buyer Icon Carrier: Solid vibrant blue circle with white icon */
+.hiw-step-unit.active .card-buyer .hiw-icon-carrier {
+  background: #3B82F6;
+  border-color: #1D4ED8;
+  color: #ffffff;
+  transform: scale(1.08);
+  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4);
+}
+
+.hiw-card-headline {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--text-primary, #0f172a);
+  margin: 0 0 6px;
+  letter-spacing: -0.01em;
+}
+
+[data-theme="dark"] .hiw-card-headline {
+  color: #f8fafc;
+}
+
+.hiw-card-paragraph {
+  font-size: 0.78rem;
+  color: var(--text-muted, #64748b);
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* Status indicator dot on active cards */
+.hiw-card-status-dot {
+  position: absolute;
+  bottom: 8px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  animation: breatheDot 1.5s infinite ease-in-out;
+}
+
+.dot-seller {
+  background: #10B981;
+}
+
+.dot-buyer {
+  background: #3B82F6;
+}
+
+@keyframes breatheDot {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.4);
+  }
+}
+
+/* ─── Center Marketplace Hub ─── */
+.hiw-center-hub-zone {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 70px;
+  z-index: 5;
+}
+
+/* Vertical Conduits */
+.hiw-vertical-wire-top {
+  position: absolute;
+  top: -75px;
+  height: 75px;
+  width: 2px;
+  background: dashed 2px #cbd5e1;
+  border-left: 2px dashed #cbd5e1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.hiw-vertical-wire-bottom {
+  position: absolute;
+  bottom: -75px;
+  height: 75px;
+  width: 2px;
+  background: dashed 2px #cbd5e1;
+  border-left: 2px dashed #cbd5e1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+[data-theme="dark"] .hiw-vertical-wire-top,
+[data-theme="dark"] .hiw-vertical-wire-bottom {
+  border-left-color: #334155;
+}
+
+/* Continuous light stream down / up */
+.conduit-stream {
+  position: absolute;
+  width: 4px;
+  height: 24px;
+  left: -2px;
+  border-radius: 9999px;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.stream-down {
+  background: linear-gradient(180deg, #10B981, transparent);
+  animation: streamDownFlow 1.1s infinite linear;
+}
+
+.stream-up {
+  background: linear-gradient(0deg, #3B82F6, transparent);
+  animation: streamUpFlow 1.1s infinite linear;
+}
+
+.stream-active {
+  opacity: 1;
+}
+
+@keyframes streamDownFlow {
+  0% {
+    top: -24px;
+  }
+  100% {
+    top: 75px;
+  }
+}
+
+@keyframes streamUpFlow {
+  0% {
+    bottom: -24px;
+  }
+  100% {
+    bottom: 75px;
+  }
+}
+
+/* Orbit Radar Ring */
+.hiw-orbit-ring {
+  position: absolute;
+  width: 380px;
+  height: 160px;
+  border: 1px dashed rgba(16, 185, 129, 0.25);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: spinOrbit 14s linear infinite;
+}
+
+[data-theme="dark"] .hiw-orbit-ring {
+  border-color: rgba(16, 185, 129, 0.35);
+}
+
+.hiw-orbit-dot {
+  position: absolute;
+  top: 50%;
+  left: -5px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #10B981;
+  box-shadow: 0 0 10px #10B981;
+}
+
+@keyframes spinOrbit {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Float Directional Pills */
+.hiw-hub-float-pill {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #64748b;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  white-space: nowrap;
+  pointer-events: none;
+  transition: all 0.4s ease;
+}
+
+[data-theme="dark"] .hiw-hub-float-pill {
+  background: #1e293b;
+  border-color: #334155;
+  color: #94a3b8;
+}
+
+.pill-above {
+  top: -46px;
+}
+
+.pill-below {
+  bottom: -46px;
+}
+
+.float-pill-arrow {
+  color: #10B981;
+}
+
+.pill-below .float-pill-arrow {
+  color: #3B82F6;
+}
+
+.hiw-hub-float-pill.glow-pill {
+  border-color: #10B981;
+  color: #065F46;
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.3);
+}
+
+[data-theme="dark"] .hiw-hub-float-pill.glow-pill {
+  border-color: #34D399;
+  color: #6EE7B7;
+}
+
+.pill-below.glow-pill {
+  border-color: #3B82F6;
+  color: #1E3A8A;
+  box-shadow: 0 0 12px rgba(59, 130, 246, 0.3);
+}
+
+[data-theme="dark"] .pill-below.glow-pill {
+  border-color: #60A5FA;
+  color: #93C5FD;
+}
+
+/* 3D Central Hub Puck */
+.hiw-3d-hub-badge {
+  position: relative;
+  width: 250px;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #064E3B 0%, #0F172A 100%);
+  border: 2px solid #10B981;
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 14px 34px -4px rgba(16, 185, 129, 0.3);
+  cursor: default; /* Not cursor: pointer! */
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  color: #ffffff;
+}
+
+.hiw-3d-hub-badge.puck-active {
+  box-shadow: 0 16px 40px -4px rgba(16, 185, 129, 0.5), 0 0 20px rgba(16, 185, 129, 0.35);
+  transform: scale(1.04);
+}
+
+.hub-title-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 1.15rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  color: #ffffff;
+}
+
+.hub-logo-recycle {
+  color: #34D399;
+  animation: rotateRecycle 10s linear infinite;
+}
+
+@keyframes rotateRecycle {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.hub-subtitle-label {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  color: #A7F3D0;
+  margin-top: 3px;
+  text-transform: uppercase;
+}
+
+.hub-live-indicator {
+  margin-top: 6px;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: #10B981;
+  background: rgba(16, 185, 129, 0.2);
+  padding: 2px 8px;
+  border-radius: 9999px;
+  border: 1px solid rgba(16, 185, 129, 0.4);
+}
+
+/* ─── Footer Tagline ─── */
+.hiw-footer-tagline {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: #94A3B8;
+  text-transform: uppercase;
+}
+
+[data-theme="dark"] .hiw-footer-tagline {
+  color: #64748B;
+}
+
+/* ─── Responsive Adjustments ─── */
+@media (max-width: 1024px) {
+  .hiw-main-heading {
+    font-size: 1.85rem;
+  }
+  .hiw-auto-ribbon {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .hiw-ribbon-steps {
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: 6px;
+  }
+}
